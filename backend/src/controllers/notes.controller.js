@@ -8,12 +8,13 @@ notesCtrl.getNotes = async (req, res) => {
 };
 
 notesCtrl.createNote = async (req, res) => {
-    const { title, content, date, author } = req.body;
+    const { title, content, date, author, levels } = req.body;
     const newNote = new Note({
         title,
         content,
         date,
-        author
+        author,
+        levels,
     });
     await newNote.save();
     res.json('New Note added');
@@ -30,12 +31,13 @@ notesCtrl.deleteNote = async (req, res) => {
 }
 
 notesCtrl.updateNote = async (req, res) => {
-    const { title, content, duration, date, author } = req.body;
+    const { title, content, duration, date, author, levels } = req.body;
     await Note.findByIdAndUpdate(req.params.id, {
         title,
         content,
         duration,
-        author
+        author,
+        levels
     });
     res.json('Note Updated');
 }

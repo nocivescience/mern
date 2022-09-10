@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
-import axios from 'axios'
+import axios from 'axios';
+import Select from 'react-select';
+const opciones=[
+    {value:'low', label:'Low'},
+    {value:'middle', label:'Middle'},
+    {value:'high', label:'High'}
+]
 
 export default class CreateNote extends Component {
 
@@ -10,6 +16,7 @@ export default class CreateNote extends Component {
         content: '',
         date: new Date(),
         userSelected: '',
+        levels:'',
         users: [],
         editing: false,
         _id: ''
@@ -32,6 +39,7 @@ export default class CreateNote extends Component {
                 content: res.data.content,
                 date: new Date(res.data.date),
                 userSelected: res.data.author,
+                levels:res.data.levels,
                 _id: res.data._id,
                 editing: true
             });
@@ -45,7 +53,8 @@ export default class CreateNote extends Component {
                 title: this.state.title,
                 content: this.state.content,
                 author: this.state.userSelected,
-                date: this.state.date
+                levels:this.state.levels,
+                date: this.state.date,
             };
             await axios.put('http://localhost:4000/api/notes/' + this.state._id, updatedNote);
         } else {
@@ -53,7 +62,8 @@ export default class CreateNote extends Component {
                 title: this.state.title,
                 content: this.state.content,
                 author: this.state.userSelected,
-                date: this.state.date
+                levels: this.state.levels,
+                date: this.state.date,
             };
             axios.post('http://localhost:4000/api/notes', newNote);
         }
@@ -116,6 +126,10 @@ export default class CreateNote extends Component {
                                 value={this.state.content}
                                 required>
                             </textarea>
+                        </div>
+                        {/* selecciones */}
+                        <div className='form-group'>
+                            <Select options={opciones} onChange={this.onInputChange} value={this.state.levels} name='levels'/>
                         </div>
                         {/* Note Date */}
                         <div className="form-group">

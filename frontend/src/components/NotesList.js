@@ -47,6 +47,9 @@ export default class NotesList extends Component {
                                         Author: {note.author}
                                     </p>
                                     <p>
+                                        Level: {note.levels}
+                                    </p>
+                                    <p>
                                         {format(note.createdAt)}
                                     </p>
                                 </div>
